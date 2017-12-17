@@ -52,24 +52,45 @@ table {
 }
 
 /**********************************
+* VARIABLES
+**********************************/
+:root {
+--color-primary: #990000;
+--color-secondary: #cc0000;
+--color-secondary-dark: #a30000;  
+
+--color-tertiary: #660000;
+  
+  --color-white-1: #eddcdc;
+  
+--basic-border: 1px solid var(--color-tertiary); 
+}
+
+/**********************************
 * GLOBAL SETUP
 **********************************/
 
 html {
   font-size: 62.5%;
+  font-family: 'Barlow Semi Condensed';
 }
 
 /**********************************
 * LAYOUT
 **********************************/
 
+html {
+  background-color: #fff;
+}
+
 body {
   width: 100vw;
   height: 100vh;
-  background-color: orangered;
+  
   display: flex;
   justify-content: center;
   align-items:center;
+  background-color: orangered;
 }
 
 .container {
@@ -78,15 +99,20 @@ body {
 
 .calc {
   width: 225px;
+  margin: 5rem 2rem;
 }
 
 .header {
   widows: inherit;
   display: flex;
+  flex-flow: column;
+  
+  align-items: flex-end;
 }
 
 .main {
   display: flex;
+  justify-content: flex-end;
 }
 
 .aside {
@@ -107,6 +133,10 @@ body {
 
 .calc__pad {
   display: flex;
+  padding: 1.1rem;
+  background-color: var(--color-tertiary);
+  
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
 }
 
 .calc__num {
@@ -123,6 +153,9 @@ body {
 .calc__ops {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  
+  height: 100%;
 }
 
 /**********************************
@@ -130,18 +163,78 @@ body {
 **********************************/
 
 .calc__input {
-  width: 100%;
+  width: 75%;
 }
 
 .calc__input input {
-  width: inherit;
+  width: 100%;
   padding: 0;
   margin-bottom: 2rem;
   border: 1px solid black;
+  height: 3rem;
+  font-size: 1.8rem;
+  font-family: inherit;
+  font-weight: 700;
+  
+  text-align: right;
+  
+  background-color: var(--color-white-1);
 }
 
+.calc__input input:focus {
+  outline: none;
+}
 
+/**********************************
+* BUTTONS
+**********************************/
 
+.btn-num:focus, .btn-ops:focus {
+  outline: none;
+}
+
+.btn-num, .btn-ops {
+  background-color: var(--color-secondary);
+  border: var(--basic-border);
+  font-family: inherit;
+  
+  transition: background-color .3s linear;
+}
+
+.btn-num {
+  height: 4.6rem;
+}
+
+.btn-ops {
+  border-radius: 2px;
+}
+
+.btn-num:hover, .btn-ops:hover {
+  background-color: var(--color-secondary-dark);
+}
+
+/**********************************
+* CONTAINER STYLES
+**********************************/
+
+.container {
+  padding: 3.4rem 1.1rem 5rem 1.1rem;
+  background-color: var(--color-primary);
+  border: var(--basic-border);
+  
+  border-radius: 3px;
+  box-shadow: 0 2.8rem 10rem rgba(0, 0, 0, .4);
+}
+
+/**********************************
+* RESULT STYLES
+**********************************/
+
+.calc__result {
+  font-size: 3.5rem;
+  padding: 1rem 0;
+  margin-bottom: 1.6rem;
+}
 
 
 
