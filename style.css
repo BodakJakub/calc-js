@@ -56,12 +56,14 @@ table {
 **********************************/
 :root {
 --color-primary: #990000;
+  
 --color-secondary: #cc0000;
 --color-secondary-dark: #a30000;  
+--color-secondary-light: #ff2626;  
 
 --color-tertiary: #660000;
   
-  --color-white-1: #eddcdc;
+--color-white-1: #eddcdc;
   
 --basic-border: 1px solid var(--color-tertiary); 
 }
@@ -90,7 +92,7 @@ body {
   display: flex;
   justify-content: center;
   align-items:center;
-  background-color: orangered;
+  background-color: #fff;
 }
 
 .container {
@@ -189,16 +191,25 @@ body {
 * BUTTONS
 **********************************/
 
-.btn-num:focus, .btn-ops:focus {
+.btn:focus {
   outline: none;
 }
 
-.btn-num, .btn-ops {
+.btn:hover {
+  background-color: var(--color-secondary-dark);
+}
+
+.btn:active {
+  transform: scale(.95);
+  background-color: var(--color-secondary-light);
+}
+
+.btn {
   background-color: var(--color-secondary);
   border: var(--basic-border);
   font-family: inherit;
-  
-  transition: background-color .3s linear;
+
+  transition: all .1s ease;
 }
 
 .btn-num {
@@ -207,10 +218,6 @@ body {
 
 .btn-ops {
   border-radius: 2px;
-}
-
-.btn-num:hover, .btn-ops:hover {
-  background-color: var(--color-secondary-dark);
 }
 
 /**********************************
