@@ -19,6 +19,13 @@ var MathController = (function(){
   
   //accepts one string, math problem
   var calculate = function(nums, op) {
+    var operations = {
+      "+": function(a, b){ a + b },
+      "-": function(a, b){ a - b },
+      "*": function(a, b){ a * b },
+      "/": function(a, b){ a / b }
+    }
+    
     var result;
     switch(op) {
       case "+":
@@ -38,11 +45,15 @@ var MathController = (function(){
       }
     },
     
+    setNumsOps: function(mode) {
+      numsArray.push(num);
+    },
+    
     getNumsArray: function(){
       return numsArray;
     },
     
-    getResult: function(num, ops){
+    calculateResult: function(num, ops){
       return calculate(num, ops);
     },
     
@@ -79,8 +90,7 @@ var controller = (function(UICtrl, MathCtrl){
             UICtrl.updateResult(nums[nums.length - 1]);
             
             // calculates number based on previous inputs from the user
-            console.log(MathCtrl.getNumsArray());
-            result = MathCtrl.getResult(MathCtrl.getNumsArray(), mode);
+            result = MathCtrl.calculateResult(MathCtrl.getNumsArray(), mode);
             
             //3. clear the input field
             UICtrl.clearInput();
@@ -105,7 +115,7 @@ var controller = (function(UICtrl, MathCtrl){
           
           // calculates intermediate value if more than 1 number
           if(nums.length > 1){
-            MathCtrl.getResult(MathCtrl.getNumsArray(), mode);
+            MathCtrl.calculateResult(MathCtrl.getNumsArray(), mode);
           };
           
           // clears output
