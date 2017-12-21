@@ -1,0 +1,28 @@
+/**********************************
+* BUTTONS
+**********************************/
+
+.btn {
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    background-color: var(--color-secondary-dark);
+  }
+  &:active {
+    transform: scale(0.95);
+    background-color: var(--color-secondary-light);
+  }
+  background-color: var(--color-secondary);
+  border: var(--basic-border);
+  font-family: inherit;
+  transition: all .1s ease;
+}
+
+.btn-num {
+  height: 4.6rem;
+}
+
+.btn-ops {
+  border-radius: 2px;
+}

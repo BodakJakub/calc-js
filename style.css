@@ -1,245 +1,174 @@
 /**********************************
 * CSS RESET
 **********************************/
-
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
+
 body {
-	line-height: 1;
-}
+  line-height: 1; }
+
 ol, ul {
-	list-style: none;
-}
+  list-style: none; }
+
 blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
+  quotes: none; }
+
+blockquote:before, blockquote:after {
+  content: '';
+  content: none; }
+
 q:before, q:after {
-	content: '';
-	content: none;
-}
+  content: '';
+  content: none; }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+  border-collapse: collapse;
+  border-spacing: 0; }
 
 /**********************************
 * VARIABLES
 **********************************/
 :root {
---color-primary: #990000;
-  
---color-secondary: #cc0000;
---color-secondary-dark: #a30000;  
---color-secondary-light: #ff2626;  
-
---color-tertiary: #660000;
-  
---color-white-1: #eddcdc;
-  
---basic-border: 1px solid var(--color-tertiary); 
-}
+  --color-primary: #990000;
+  --color-secondary: #cc0000;
+  --color-secondary-dark: #a30000;
+  --color-secondary-light: #ff2626;
+  --color-tertiary: #660000;
+  --color-white-1: #eddcdc;
+  --basic-border: 1px solid var(--color-tertiary); }
 
 /**********************************
 * GLOBAL SETUP
 **********************************/
-
 html {
   font-size: 62.5%;
   font-family: 'Barlow Semi Condensed';
-}
+  background-color: #fff; }
 
 /**********************************
-* LAYOUT
+* BUTTONS
 **********************************/
+.btn {
+  background-color: var(--color-secondary);
+  border: var(--basic-border);
+  font-family: inherit;
+  transition: all .1s ease; }
+  .btn:focus {
+    outline: none; }
+  .btn:hover {
+    background-color: var(--color-secondary-dark); }
+  .btn:active {
+    transform: scale(0.95);
+    background-color: var(--color-secondary-light); }
 
-html {
-  background-color: #fff;
-}
+.btn-num {
+  height: 4.6rem; }
 
-body {
-  width: 100vw;
-  height: 100vh;
-  
-  display: flex;
-  justify-content: center;
-  align-items:center;
-  background-color: #fff;
-}
+.btn-ops {
+  border-radius: 2px; }
 
+/**********************************
+* CONTAINER STYLES
+**********************************/
 .container {
-  display: flex;
-}
-
-.calc {
-  width: 225px;
-  margin: 5rem 2rem;
-}
-
-.header {
-  widows: inherit;
-  display: flex;
-  flex-flow: column;
-  
-  align-items: flex-end;
-}
-
-.main {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.aside {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.themes {
-  display: flex;
-  align-self: flex-end;
-}
-
-
-/**********************************
-* NUMPAD
-**********************************/
-
-.calc__pad {
-  display: flex;
-  padding: 1.1rem;
-  background-color: var(--color-tertiary);
-  
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
-}
-
-.calc__num {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-wrap: wrap;
-}
-
-.calc__num * {
-  flex: 1 0 33%;
-}
-
-.calc__ops {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  
-  height: 100%;
-}
+  padding: 3.4rem 1.1rem 5rem 1.1rem;
+  background-color: var(--color-primary);
+  border: var(--basic-border);
+  border-radius: 3px;
+  box-shadow: 0 2.8rem 10rem rgba(0, 0, 0, 0.4); }
 
 /**********************************
 * INPUT
 **********************************/
-
 .calc__input {
   width: 75%;
   background-color: var(--color-primary);
   margin-bottom: 2rem;
   font-weight: 700;
-  text-align: right;
-}
+  text-align: right; }
 
 .calc__input-field {
   width: 100%;
   font-size: 2.8rem;
-  font-family: inherit;
-}
-
-/**********************************
-* BUTTONS
-**********************************/
-
-.btn:focus {
-  outline: none;
-}
-
-.btn:hover {
-  background-color: var(--color-secondary-dark);
-}
-
-.btn:active {
-  transform: scale(.95);
-  background-color: var(--color-secondary-light);
-}
-
-.btn {
-  background-color: var(--color-secondary);
-  border: var(--basic-border);
-  font-family: inherit;
-
-  transition: all .1s ease;
-}
-
-.btn-num {
-  height: 4.6rem;
-}
-
-.btn-ops {
-  border-radius: 2px;
-}
-
-/**********************************
-* CONTAINER STYLES
-**********************************/
-
-.container {
-  padding: 3.4rem 1.1rem 5rem 1.1rem;
-  background-color: var(--color-primary);
-  border: var(--basic-border);
-  
-  border-radius: 3px;
-  box-shadow: 0 2.8rem 10rem rgba(0, 0, 0, .4);
-}
+  font-family: inherit; }
 
 /**********************************
 * RESULT STYLES
 **********************************/
-
 .calc__result {
   font-size: 5.5rem;
   padding: 1rem 0;
-  margin-bottom: 1.6rem;
-}
+  margin-bottom: 1.6rem; }
 
+/**********************************
+* NUMPAD
+**********************************/
+.calc__pad {
+  display: flex;
+  padding: 1.1rem;
+  background-color: var(--color-tertiary);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
 
+.calc__num {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap; }
+  .calc__num * {
+    flex: 1 0 33%; }
 
+.calc__ops {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%; }
 
+/**********************************
+* LAYOUT
+**********************************/
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff; }
 
+.container {
+  display: flex; }
 
+.calc {
+  width: 225px;
+  margin: 5rem 2rem; }
 
+.header {
+  widows: inherit;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end; }
 
+.main {
+  display: flex;
+  justify-content: flex-end; }
 
+.aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
 
+.themes {
+  display: flex;
+  align-self: flex-end; }

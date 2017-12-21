@@ -1,0 +1,44 @@
+/**********************************
+* LAYOUT
+**********************************/
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.container {
+  display: flex;
+}
+
+.calc {
+  width: 225px;
+  margin: 5rem 2rem;
+}
+
+.header {
+  widows: inherit;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+}
+
+.main {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.themes {
+  display: flex;
+  align-self: flex-end;
+}
