@@ -25,7 +25,7 @@ var UIController = (function() {
 
 var MathController = (function(){
   
-  data = {
+  var data = {
     numsArray: [],
     total: 0,
     mode: "+",
@@ -39,15 +39,17 @@ var MathController = (function(){
       "102": 6,
       "103": 7,
       "104": 8,
-      "105": 9
+      "105": 9,
+      "110": "."
     },
     //this should always be only one element
     newInput: true,
-    canCalculate: true
+    canCalculate: true,
+    enterValue: 0
   }
   
   //accepts one string, math problem and operator (mode: + - * /)
-  var calculate = function(mode) {
+  var calculate = function(mode, eValue) {
     console.log("calculate fn")
     var operations = {
       "+": function(a, b){ return a + b },
@@ -57,10 +59,19 @@ var MathController = (function(){
       "none": function(a, b) { return data.total }
     };
     
-    //here we choose function from our object base on current mode
-    //mode is changed by the user, inital value is "+" 
-    data.total = operations[mode](data.numsArray[data.numsArray.length - 2], data.numsArray[data.numsArray.length - 1]);
-    data.numsArray.push(data.total);
+    if(eValue){
+      console.log("first calculate branch running...")
+      data.total = operations[mode](data.numsArray[data.numsArray.length - 2], eValue);
+      data.numsArray.push(data.total);
+    } else if (!eValue){
+      //here we choose function from our object base on current mode
+      //mode is changed by the user, inital value is "+" 
+      console.log("second calculate branch running...")
+      data.total = operations[mode](data.numsArray[data.numsArray.length - 2], data.numsArray[data.numsArray.length - 1]);
+      data.numsArray.push(data.total);
+    }
+    
+    
   }
   
   return {
@@ -71,7 +82,7 @@ var MathController = (function(){
     },
     
     resetNumsArray: function() {
-      data.numsArray = [0];
+      data.numsArray = [];
     },
     
     setNumsArray: function(n){
@@ -99,8 +110,8 @@ var MathController = (function(){
       data.total = t;
     },
     
-    calculateTotal: function(){
-      calculate(data.mode)
+    calculateTotal: function(e){
+      calculate(data.mode, e);
     },
     
     getKeyCodes: function(){
@@ -118,6 +129,14 @@ var MathController = (function(){
     },
     setCanCalculate: function(c){
       data.canCalculate = c;
+    },
+    
+    getEnterValue: function(){
+      return data.enterValue;
+    },
+    
+    setEnterValue: function(e){
+      data.enterValue = e;
     },
     
     testing: function(){
@@ -138,13 +157,17 @@ var controller = (function(UICtrl, MathCtrl){
       var nums = MathCtrl.getNumsArray();
       var inputValue = document.querySelector(".calc__input-field").textContent;
       var keys;
+      console.log(e.keyCode)
       
+      //MOVE OUTSIDE THE EVENT LISTENER
       var useOperators = function(m){
         console.log(m)
         if (nums.length === 0){
           console.log(inputValue)
           MathCtrl.pushNumsArray(parseFloat(inputValue));
-          MathCtrl.setMode(m); 
+          UICtrl.updateResult(MathCtrl.getLastNum());
+          MathCtrl.setMode(m);
+          MathCtrl.setCanCalculate(false);
         } else {
           
           if(MathCtrl.getCanCalculate()){
@@ -174,6 +197,7 @@ var controller = (function(UICtrl, MathCtrl){
         case 103:
         case 104:
         case 105:
+        case 110:
           if(MathCtrl.getNewInput()){
             UICtrl.printToInput("");
             MathCtrl.setNewInput(false);
@@ -187,9 +211,25 @@ var controller = (function(UICtrl, MathCtrl){
           UICtrl.printToInput(keys[String(e.keyCode)]);
           MathCtrl.setCanCalculate(true);
           break;
-        case 13:
+        case 13: // enter
         case 187:
-          
+          if(MathCtrl.getCanCalculate()){  
+            if(nums.length > 0 && inputValue !== "0"){
+              console.log("Enter branch 1 runnung");
+              MathCtrl.pushNumsArray(parseFloat(inputValue));
+              MathCtrl.setEnterValue(parseFloat(inputValue));
+              MathCtrl.calculateTotal(false);
+              UICtrl.updateResult(MathCtrl.getLastNum());
+              console.log("inputValue " + inputValue);
+              UICtrl.clearInput();
+              MathCtrl.setCanCalculate(false)
+            } else if (nums.length > 0 && inputValue === "0"){
+              console.log("Enter branch 2 runnung")
+              MathCtrl.calculateTotal(MathCtrl.getEnterValue());
+              UICtrl.updateResult(MathCtrl.getLastNum());
+              MathCtrl.calculateTotal(false);
+            }
+          }
           break;
         case 107: // +
           useOperators("+");
@@ -197,13 +237,13 @@ var controller = (function(UICtrl, MathCtrl){
         case 109: // -
           useOperators("-");
           break;
-        case 106:
+        case 106: // *
           useOperators("*");
           break;
-        case 111:
+        case 111: // /
           useOperators("/");
           break;
-        case 46:
+        case 46: // del
           // clears calculator after user presses DEL
           UICtrl.clearInput();
           UICtrl.updateResult(0);
@@ -228,6 +268,9 @@ var controller = (function(UICtrl, MathCtrl){
       console.log("App has started");
       document.querySelector(".calc__input-field").textContent = "0";
       evntListeners();
+    },
+    inputV: function(){
+      return document.querySelector(".calc__input-field").textContent;
     }
   }
   

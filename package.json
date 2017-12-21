@@ -1,0 +1,12 @@
+{
+  "name": "Calc",
+  "version": "1.0.0",
+  "author": "Jakub Bodak",
+  "description": "Simple calculator app to test multiple themes",
+  "scripts": {
+    "compile:sass": ""
+  },
+  "dependencies": {
+    "node-sass": "^4.7.2"
+  }
+}
