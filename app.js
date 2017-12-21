@@ -1,13 +1,23 @@
 var UIController = (function() {
+  var DOMvalues = {
+    userInput: ".calc__input-field"
+  }
   
   return {
     clearInput: function(){
       // clears the input field after user presses enter or =
-      document.querySelector(".calc__input-field").value = "";
+      document.querySelector(DOMvalues.userInput).textContent = "0";
     },
     
     updateResult: function(res){
       document.querySelector(".calc__result").textContent = res;
+    },
+    printToInput: function(k){
+      if (document.querySelector(DOMvalues.userInput).textContent === "0" || k === ""){
+        document.querySelector(DOMvalues.userInput).textContent = k;
+      } else {
+        document.querySelector(DOMvalues.userInput).textContent += k;
+      }
     }
   }
   
@@ -15,50 +25,104 @@ var UIController = (function() {
 
 var MathController = (function(){
   
-  numsArray = [];
+  data = {
+    numsArray: [],
+    total: 0,
+    mode: "+",
+    keyCodes: {
+      "96": 0,
+      "97": 1,
+      "98": 2,
+      "99": 3,
+      "100": 4,
+      "101": 5,
+      "102": 6,
+      "103": 7,
+      "104": 8,
+      "105": 9
+    },
+    //this should always be only one element
+    newInput: true,
+    canCalculate: true
+  }
   
-  //accepts one string, math problem
-  var calculate = function(nums, op) {
+  //accepts one string, math problem and operator (mode: + - * /)
+  var calculate = function(mode) {
+    console.log("calculate fn")
     var operations = {
-      "+": function(a, b){ a + b },
-      "-": function(a, b){ a - b },
-      "*": function(a, b){ a * b },
-      "/": function(a, b){ a / b }
-    }
+      "+": function(a, b){ return a + b },
+      "-": function(a, b){ return a - b },
+      "*": function(a, b){ return a * b },
+      "/": function(a, b){ return a / b },
+      "none": function(a, b) { return data.total }
+    };
     
-    var result;
-    switch(op) {
-      case "+":
-        result = nums[nums.length - 2] + nums[nums.length - 1];
-        break;
-      case "-":
-        result = nums[nums.length - 2] - nums[nums.length - 1];
-        break;
-    }
-    return result;
+    //here we choose function from our object base on current mode
+    //mode is changed by the user, inital value is "+" 
+    data.total = operations[mode](data.numsArray[data.numsArray.length - 2], data.numsArray[data.numsArray.length - 1]);
+    data.numsArray.push(data.total);
   }
   
   return {
-    setNumsArray: function(num) {
+   pushNumsArray: function(num) {
       if(typeof num === "number" && !isNaN(num)){
-        numsArray.push(num);
+        data.numsArray.push(num);
       }
     },
     
-    setNumsOps: function(mode) {
-      numsArray.push(num);
+    resetNumsArray: function() {
+      data.numsArray = [0];
+    },
+    
+    setNumsArray: function(n){
+      data.numsArray[0] = n;
     },
     
     getNumsArray: function(){
-      return numsArray;
+      return data.numsArray;
     },
     
-    calculateResult: function(num, ops){
-      return calculate(num, ops);
+    getMode: function(){
+      return data.mode;
+    },
+    
+    setMode: function(m){
+      data.mode = m;
+    },
+    
+    getLastNum: function(){
+      console.log("getLastNum: " + data.numsArray[data.numsArray.length - 1])
+      return data.numsArray[data.numsArray.length - 1];
+    },
+    
+    setTotal: function(t){
+      data.total = t;
+    },
+    
+    calculateTotal: function(){
+      calculate(data.mode)
+    },
+    
+    getKeyCodes: function(){
+      return data.keyCodes;
+    },
+    getNewInput: function(){
+      return data.newInput
+    },
+    setNewInput: function(i){
+      data.newInput = i;
+    },
+    
+    getCanCalculate: function(){
+      return data.canCalculate;
+    },
+    setCanCalculate: function(c){
+      data.canCalculate = c;
     },
     
     testing: function(){
-      console.log(numsArray);
+      console.log(data.numsArray);
+      console.log(data.newInput);
     }
   }
 })();
@@ -68,79 +132,101 @@ var controller = (function(UICtrl, MathCtrl){
   
   var evntListeners = function(){
     
+    // KEYBOARD CONTROL
     document.addEventListener('keyup', function(e){
       //POSSIBLY MOVE THIS DECLARATION ELSEWHERE, IF NEEDED
-      var nums = MathCtrl.getNumsArray(),
-          mode = "+";
-      inputValue = document.querySelector(".calc__input-field").value;
+      var nums = MathCtrl.getNumsArray();
+      var inputValue = document.querySelector(".calc__input-field").textContent;
+      var keys;
       
-//      console.log(e.keyCode);
+      var useOperators = function(m){
+        console.log(m)
+        if (nums.length === 0){
+          console.log(inputValue)
+          MathCtrl.pushNumsArray(parseFloat(inputValue));
+          MathCtrl.setMode(m); 
+        } else {
+          
+          if(MathCtrl.getCanCalculate()){
+            if(inputValue !== "0"){
+              console.log("pushing into array...")
+              MathCtrl.pushNumsArray(parseFloat(inputValue));
+            }
+            console.log("CanCalculate: " + MathCtrl.getCanCalculate())
+            MathCtrl.calculateTotal();
+            UICtrl.updateResult(MathCtrl.getLastNum());
+            MathCtrl.setCanCalculate(false);
+            console.log("CanCalculate: " + MathCtrl.getCanCalculate())
+          }
+          MathCtrl.setMode(m);
+        }
+        MathCtrl.setNewInput(true);
+      }
       
       switch(e.keyCode){
-        case 13:
-        case 187:
-          // if more than 1 number already written, it will add it into numsArr array with all the numbers
-          if(nums.length > 0){  
-            var result;
-            // adds the number into the array
-            inputValue = document.querySelector(".calc__input-field").value;
-            MathCtrl.setNumsArray(parseInt(inputValue));
-            
-            //updates the UI
-            UICtrl.updateResult(nums[nums.length - 1]);
-            
-            // calculates number based on previous inputs from the user
-            result = MathCtrl.calculateResult(MathCtrl.getNumsArray(), mode);
-            
-            //3. clear the input field
-            UICtrl.clearInput();
-            
-            //4. display the result
-            console.log(result);
-            UICtrl.updateResult(result);
+        case 96:
+        case 97:
+        case 98:
+        case 99:
+        case 100:
+        case 101:
+        case 102:
+        case 103:
+        case 104:
+        case 105:
+          if(MathCtrl.getNewInput()){
+            UICtrl.printToInput("");
+            MathCtrl.setNewInput(false);
           }
           
+          // get keyCodes and what number they represent from our global data structure
+          keys = MathCtrl.getKeyCodes();
+          
+          // then we pass specific keycode to our UI ctrl function that will then print it to the screen
+          // we have to convert e.keyCode to String because thats how keys in JS objects work
+          UICtrl.printToInput(keys[String(e.keyCode)]);
+          MathCtrl.setCanCalculate(true);
           break;
+        case 13:
+        case 187:
           
-          //we are going to make a function for the rest of the operators that will take them as an argument and add them to math problem builder
-          //probably doesnt have to be switch, only simple if( + || - || / || *)
-        case 107: // +     
-          // adds number to the array
-          MathCtrl.setNumsArray(parseInt(inputValue));
-          
-          
-          // updates UI
-          //sets "mode" variable
-          mode = "+";
-          
-          // calculates intermediate value if more than 1 number
-          if(nums.length > 1){
-            MathCtrl.calculateResult(MathCtrl.getNumsArray(), mode);
-          };
-          
-          // clears output
-          UICtrl.clearInput();
+          break;
+        case 107: // +
+          useOperators("+");
           break;
         case 109: // -
-          console.log("- was pressed");
+          useOperators("-");
           break;
         case 106:
-          console.log("* was pressed");
+          useOperators("*");
           break;
         case 111:
-          console.log("/ was pressed");
+          useOperators("/");
           break;
         case 46:
           // clears calculator after user presses DEL
           UICtrl.clearInput();
           UICtrl.updateResult(0);
+          MathCtrl.setMode("+");
+          MathCtrl.setTotal(0);
+          MathCtrl.resetNumsArray();
       }
     });
+    
+    //ONSCREEN CONTROL
+    
+    document.querySelector(".calc__num").addEventListener("click", function(e){
+      document.querySelector(".calc__input-field").value = e.target.textContent;
+      console.log(document.querySelector(".calc__input-field").value);
+    });
+    
+    
   };
   
   return {
     init: function(){
       console.log("App has started");
+      document.querySelector(".calc__input-field").textContent = "0";
       evntListeners();
     }
   }
