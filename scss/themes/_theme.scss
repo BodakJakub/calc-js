@@ -1,0 +1,9 @@
+$themes: (
+  theme-default: $color-primary-d $color-secondary-d $color-secondary-dark-d $color-secondary-light-d $color-tertiary-d $color-white-1-d,
+  theme-light: $color-primary-l $color-secondary-l $color-secondary-dark-l $color-secondary-light-l $color-tertiary-l black,
+  theme-cherry: red black black black black black
+);
+
+@each $key, $value in $themes {
+  @include theme($key, $value);
+} 

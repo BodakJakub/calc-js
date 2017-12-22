@@ -1,7 +1,8 @@
 var UIController = (function() {
   var DOMvalues = {
     userInput: ".calc__input-field"
-  }
+  };
+  var actualTheme;
   
   return {
     clearInput: function(){
@@ -19,6 +20,14 @@ var UIController = (function() {
 //        document.querySelector(DOMvalues.userInput).textContent += k;
 //      }
 //    }
+    changeTheme: function(theme){
+      actualTheme = document.querySelector("body").classList[0];
+      
+//      console.log(document.querySelector("body").classList[0]);
+//      console.log("actual theme " + actualTheme);
+      document.querySelector("body").classList.remove(actualTheme);
+      document.querySelector("body").classList.add(theme);
+    }
   }
   
 })();
@@ -180,14 +189,12 @@ var controller = (function(UICtrl, MathCtrl){
       // then we pass specific keycode to our UI ctrl function that will then print it to the screen
       // we have to convert e.keyCode to String because thats how keys in JS objects work
       document.querySelector(".calc__input-field").textContent += keys[String(e.target.getAttribute("id"))];
-      console.log("id + " + e.target.getAttribute("id"));
       MathCtrl.setCanCalculate(true);
     });
     
     
     // KEYBOARD CONTROL
-    document.addEventListener('keypress', function(e){      
-      document.querySelector(".themes").textContent = "CanCalculate: " + MathCtrl.getCanCalculate();
+    document.addEventListener('keypress', function(e){
       //POSSIBLY MOVE THIS DECLARATION ELSEWHERE, IF NEEDED
       inputValue = document.querySelector(".calc__input-field").textContent;
 
@@ -246,6 +253,20 @@ var controller = (function(UICtrl, MathCtrl){
           break;
       }
     });
+    
+    document.querySelector(".themes").addEventListener("click", function(e){
+      var buttonPressed = e.target.classList[0];
+      
+      console.log(e.target.classList[0])
+      UICtrl.changeTheme(buttonPressed);
+    });
+//    document.querySelector(".theme-banana").addEventListener("click", function(){
+//      UICtrl.changeTheme("theme-banana");
+//    });
+//    document.querySelector(".theme-default").addEventListener("click", function(){
+//      UICtrl.changeTheme("theme-default");
+//    });
+    
     
     //ONSCREEN CONTROL
     

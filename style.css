@@ -41,15 +41,6 @@ table {
 /**********************************
 * VARIABLES
 **********************************/
-:root {
-  --color-primary: #990000;
-  --color-secondary: #cc0000;
-  --color-secondary-dark: #a30000;
-  --color-secondary-light: #ff2626;
-  --color-tertiary: #660000;
-  --color-white-1: #eddcdc;
-  --basic-border: 1px solid var(--color-tertiary); }
-
 /**********************************
 * GLOBAL SETUP
 **********************************/
@@ -62,31 +53,29 @@ html {
 * BUTTONS
 **********************************/
 .btn {
-  background-color: var(--color-secondary);
-  border: var(--basic-border);
+  border: 1px solid #660000;
   font-family: inherit;
   transition: all .1s ease; }
   .btn:focus {
     outline: none; }
-  .btn:hover {
-    background-color: var(--color-secondary-dark); }
   .btn:active {
-    transform: scale(0.95);
-    background-color: var(--color-secondary-light); }
-
-.btn-num {
-  height: 4.6rem; }
-
-.btn-ops {
-  border-radius: 2px; }
+    transform: scale(0.95); }
+  .btn-num {
+    height: 4.6rem; }
+  .btn-ops {
+    border-radius: 2px; }
+  .btn-theme {
+    height: 4.6rem; }
+    .btn-theme:not(:last-child) {
+      margin-bottom: 1rem; }
 
 /**********************************
 * CONTAINER STYLES
 **********************************/
 .container {
   padding: 3.4rem 1.1rem 5rem 1.1rem;
-  background-color: var(--color-primary);
-  border: var(--basic-border);
+  background-color: #990000;
+  border: 1px solid #660000;
   border-radius: 3px;
   box-shadow: 0 2.8rem 10rem rgba(0, 0, 0, 0.4); }
 
@@ -95,7 +84,6 @@ html {
 **********************************/
 .calc__input {
   width: 75%;
-  background-color: var(--color-primary);
   margin-bottom: 2rem;
   font-weight: 700;
   text-align: right; }
@@ -119,7 +107,7 @@ html {
 .calc__pad {
   display: flex;
   padding: 1.1rem;
-  background-color: var(--color-tertiary);
+  background-color: #660000;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
 
 .calc__num {
@@ -171,4 +159,67 @@ body {
 
 .themes {
   display: flex;
-  align-self: flex-end; }
+  align-self: flex-end;
+  flex-direction: column;
+  margin-right: 2.6rem; }
+
+.theme-default {
+  color: black; }
+  .theme-default .container {
+    background-color: #990000;
+    color: #eddcdc; }
+  .theme-default .btn {
+    background-color: #990000;
+    color: inherit; }
+    .theme-default .btn:hover {
+      background-color: #7c0101; }
+    .theme-default .btn:active {
+      transform: scale(0.95);
+      background-color: #ff1e1e; }
+  .theme-default .calc__input {
+    background-color: #990000; }
+  .theme-default .calc__pad {
+    background-color: #660000; }
+
+.theme-light {
+  color: black; }
+  .theme-light .container {
+    background-color: #c8f7f5;
+    color: black;
+    color: #3c56b2;
+    border: 1px solid #3c56b2;
+    border-radius: 6px; }
+  .theme-light .btn {
+    background-color: #c8f7f5;
+    color: inherit;
+    border: 1px solid #3c56b2;
+    border-radius: 6px; }
+    .theme-light .btn:hover {
+      background-color: #aae8ff; }
+    .theme-light .btn:active {
+      transform: scale(0.95);
+      background-color: #5a7b87; }
+  .theme-light .calc__input {
+    background-color: #c8f7f5; }
+  .theme-light .calc__pad {
+    background-color: #3c56b2;
+    border-radius: 6px;
+    box-shadow: 0.75rem 2rem 3rem rgba(0, 0, 0, 0.65); }
+
+.theme-cherry {
+  color: black; }
+  .theme-cherry .container {
+    background-color: red;
+    color: black; }
+  .theme-cherry .btn {
+    background-color: red;
+    color: inherit; }
+    .theme-cherry .btn:hover {
+      background-color: black; }
+    .theme-cherry .btn:active {
+      transform: scale(0.95);
+      background-color: black; }
+  .theme-cherry .calc__input {
+    background-color: red; }
+  .theme-cherry .calc__pad {
+    background-color: black; }

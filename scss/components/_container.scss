@@ -4,8 +4,8 @@
 
 .container {
   padding: 3.4rem 1.1rem 5rem 1.1rem;
-  background-color: var(--color-primary);
-  border: var(--basic-border);
+  background-color: $color-primary-d;
+  border: $border-primary;
   border-radius: 3px;
   box-shadow: 0 2.8rem 10rem rgba(0, 0, 0, 0.4);
 }

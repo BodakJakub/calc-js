@@ -41,4 +41,6 @@ body {
 .themes {
   display: flex;
   align-self: flex-end;
+  flex-direction: column;
+  margin-right: 2.6rem;
 }
